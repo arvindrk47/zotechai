@@ -14,7 +14,7 @@ class TodoAPITestCase(TestCase):
     def test_todo_list(self):
         response = self.client.get('/api/todos/')
         self.assertEqual(response.status_code, 200)
-        # Ensure no Todos are initially present
+        
         self.assertListEqual(response.data, [])
     
     def test_create_todo(self):

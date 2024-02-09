@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes  # Import the permission_classes decorator
+from rest_framework.decorators import permission_classes  
 from .models import Todo
 from .serializers import TodoSerializer
 from rest_framework.authtoken.models import Token
@@ -34,7 +34,7 @@ class ObtainTokenView(APIView):
 
         token, created = Token.objects.get_or_create(user=user)
 
-        # Set token expiration
+        
         token.expires = datetime.now() + timedelta(days=3)
         token.save()
 
@@ -44,7 +44,7 @@ class ObtainTokenView(APIView):
 
 class TodoListView(APIView):
     serializer_class = TodoSerializer
-    permission_classes = [IsAuthenticated]  # Set permission_classes as a class attribute
+    permission_classes = [IsAuthenticated]  
 
     def get(self, request):
         todos = Todo.objects.filter(user=request.user)
@@ -54,20 +54,20 @@ class TodoListView(APIView):
     def post(self, request):
         logger = logging.getLogger(__name__)
 
-        # Log request data
+       
         logger.info(f"Request data: {request.data}")
 
         serializer = TodoSerializer(data=request.data)
         if serializer.is_valid():
-            # Automatically associate the authenticated user with the ToDo item
+            
             serializer.validated_data['user'] = request.user
             serializer.save()
-            # Log validated data
+            
             logger.info(f"Validated data: {serializer.validated_data}")
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            # Log serializer errors
+            
             logger.error(f"Serializer errors: {serializer.errors}")
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

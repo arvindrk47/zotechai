@@ -2,7 +2,7 @@
 
 ## 1. Obtain Token
 
-To obtain a token, send a POST request to `localhost:8000/api/token` with the following JSON payload:
+To obtain a token, send a POST request to `localhost:8000/api/token/` with the following JSON payload:
 
 ```json
 {
